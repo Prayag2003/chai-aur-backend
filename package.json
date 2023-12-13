@@ -1,0 +1,16 @@
+{
+  "name": "chai-aur-backend-prodn-grade",
+  "version": "1.0.0",
+  "description": "Production grade backend application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "backend",
+    "production"
+  ],
+  "author": "Prayag Bhatt",
+  "license": "ISC"
+}
