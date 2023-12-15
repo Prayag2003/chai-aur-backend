@@ -1,22 +1,22 @@
 
-const requestHandler = (requestHandler) => {
+const asyncHandler = (requestHandler) => {
     (req, res, next) => {
         Promise.resolve(requestHandler(req, res, next))
             .catch((err) => next(err))
     }
 }
-export { requestHandler }
+export { asyncHandler }
 
 
 // NOTE: High Order functions
 
-// const requestHandler = () => { }
-// const requestHandler = (func) =>  { }
-// const requestHandler = (func) => { () => { } }
+// const asyncHandler = () => { }
+// const asyncHandler = (func) =>  { }
+// const asyncHandler = (func) => { () => { } }
 
 
 // // Wrapper function which can be used everywhere
-// const requestHandler = (fn) => async (req, res, next) => {
+// const asyncHandler = (fn) => async (req, res, next) => {
 //     try {
 //         await fn(req, res, next)
 //     } catch (error) {
