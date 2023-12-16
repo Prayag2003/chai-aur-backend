@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### Node ###
 # Logs
 logs
@@ -139,3 +140,7 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+=======
+node_modules
+.env
+>>>>>>> a49a8710878b1e085e5c7ece711a7eef65c9dbf0
