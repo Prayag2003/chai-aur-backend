@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "chai-aur-backend-prodn-grade",
   "version": "1.0.0",
   "description": "Production grade backend application",
@@ -30,25 +29,5 @@
     "mongoose": "^8.0.3",
     "mongoose-aggregate-paginate-v2": "^1.0.6",
     "multer": "^1.4.5-lts.1"
-=======
-  "name": "chai-aur-backend",
-  "version": "1.0.0",
-  "description": "a simple backend application to deploy",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-  },
-  "keywords": [
-    "node",
-    "chai",
-    "backend"
-  ],
-  "author": "Prayag Bhatt",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2"
->>>>>>> a49a8710878b1e085e5c7ece711a7eef65c9dbf0
   }
 }
