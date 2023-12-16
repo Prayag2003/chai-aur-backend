@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // NOTE: Checking if the user already exists
     // User.findOne(username)
-    const existingUser = User.findOne({
+    const existingUser = await User.findOne({
         $or: [{ username }, { email }]
     })
 
@@ -42,7 +42,6 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // NOTE: Checking the images  { Optional Chaining is used here }
-    console.log(req.files);
     const avatarLocalPath = req.files?.avatar[0]?.path
     const coverImageLocalPath = req.files?.coverImage[0]?.path
 
