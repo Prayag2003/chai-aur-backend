@@ -247,4 +247,167 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken }
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+    const { oldPassword, newPassword, confPassword } = req.body
+
+    if (newPassword !== confPassword) {
+        throw new ApiError(400, "passwords do not match...")
+    }
+
+    // NOTE: Since user is requesting for password change, he must be logged in and hence we can apply the verifyJWT middleware and access the user via req.user field created in the Auth Middlware
+
+    const user = await User.findById(req.user?._id)
+    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
+
+    if (!isPasswordCorrect) {
+        throw new ApiError(400, "invalid old password ")
+    }
+
+    user.password = newPassword
+    await user.save({ validateBeforeSave: false })
+
+    return res
+        .status(200)
+        .json(new ApiResponse(
+            200,
+            {},
+            "Password changed successfully."
+        ))
+})
+
+const getCurrentUser = asyncHandler(async (req, res) => {
+    return res
+        .status(200)
+        .json(new ApiResponse(
+            200,
+            req.user,
+            "user fetched successfully."
+        ))
+})
+
+const updateAccountDetails = asyncHandler(async (req, res) => {
+    const { fullname, email } = req.body
+
+    if (!fullname && !email) {
+        throw new ApiError(400, "All fields are required")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set: {
+                fullname: fullname,
+                email: email
+            }
+        },
+        {
+            new: true
+        }
+    ).select("-password -refreshToken")
+
+    return res
+        .status(200)
+        .json(new ApiResponse(
+            200,
+            user,
+            "Account details updated successfully."
+        ))
+})
+
+const updateAvatar = asyncHandler(async (req, res) => {
+    // Updating via the Multer middleware
+    // since it's a single file, use .file instead .files unlike in RegisterUser Controller
+    const avatarLocalPath = req.file?.path
+    if (!avatarLocalPath) {
+        throw new ApiError(400, "Avatar file is missing")
+    }
+
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+    if (!avatar.url) {
+        throw new ApiError(400, "error while uploading on avatar")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set: {
+                avatar: avatar.url
+            }
+        },
+        {
+            new: true
+        }
+    ).select("-password -refreshToken")
+
+    if (!user) {
+        throw new ApiError(400, "error while updating the avatar")
+    }
+
+    user.save({ validateBeforeSave: false })
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                user,
+                "avatar updated successfully"
+            )
+        )
+
+})
+
+const updateCoverImage = asyncHandler(async (req, res) => {
+    // Updating via the Multer middleware
+    // since it's a single file, use .file instead .files unlike in RegisterUser Controller
+    const coverLocalPath = req.file?.path
+    if (!coverLocalPath) {
+        throw new ApiError(400, "Avatar file is missing")
+    }
+
+    const coverImage = await uploadOnCloudinary(coverLocalPath)
+
+    if (!coverImage.url) {
+        throw new ApiError(400, "error while uploading on cover")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set: {
+                coverImage: coverImage.url
+            }
+        },
+        {
+            new: true
+        }
+    ).select("-password -refreshToken")
+
+    if (!user) {
+        throw new ApiError(400, "error while updating the avatar")
+    }
+
+    user.save({ validateBeforeSave: false })
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                user,
+                "cover image updated successfully"
+            )
+        )
+
+})
+
+export {
+    registerUser,
+    loginUser,
+    logoutUser,
+    refreshAccessToken,
+    changeCurrentPassword,
+    getCurrentUser,
+    updateAccountDetails,
+    updateAvatar,
+    updateCoverImage
+}
