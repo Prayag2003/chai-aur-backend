@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js"
 import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary_service.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-import jwt, { decode } from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -228,16 +228,16 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         }
 
         // generating new tokens
-        const { accessToken, newRefreshToken } = await generateAccessAndRefreshToken(user._id)
-
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
+        console.log(refreshToken);
         return res
             .status(200)
             .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", newRefreshToken, options)
+            .cookie("refreshToken", refreshToken, options)
             .json(
                 new ApiResponse(
                     200,
-                    { accessToken, refreshToken: newRefreshToken },
+                    { accessToken, refreshToken: refreshToken },
                     "Access Token refreshed"
                 )
             )
@@ -304,6 +304,10 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
             new: true
         }
     ).select("-password -refreshToken")
+
+    if (!user) {
+        throw new ApiError(400, "error while updating the account details")
+    }
 
     return res
         .status(200)
