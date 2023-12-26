@@ -27,4 +27,23 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 }
 
-export { uploadOnCloudinary }
+const deleteOldImage = async (oldAvatarURL) => {
+    try {
+        if (!oldAvatarURL) return null
+        await cloudinary.uploader.destroy(oldAvatarURL,
+            {
+                invalidate: true,
+                resource_type: "image"
+            }
+        )
+        if (!response) {
+            console.log("Couldn't delete the older image");
+        }
+        return response
+    } catch (error) {
+        console.log(error);
+        return null
+    }
+}
+
+export { uploadOnCloudinary, deleteOldImage }

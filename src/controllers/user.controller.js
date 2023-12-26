@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { User } from "../models/user.model.js"
-import { uploadOnCloudinary } from "../utils/cloudinary_service.js"
+import { deleteOldImage, uploadOnCloudinary } from "../utils/cloudinary_service.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 
@@ -321,16 +321,18 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 const updateAvatar = asyncHandler(async (req, res) => {
     // Updating via the Multer middleware
     // since it's a single file, use .file instead .files unlike in RegisterUser Controller
-    const avatarLocalPath = req.file?.path
+    const avatarLocalPath = req.files?.avatar[0]?.path
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is missing")
     }
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
+    console.log(avatar.url);
+    // if (!avatar.url) {
+    //     throw new ApiError(400, "error while uploading on avatar")
+    // }
 
-    if (!avatar.url) {
-        throw new ApiError(400, "error while uploading on avatar")
-    }
+    const oldAvatarURL = await User.findById(req.user?._id).select("avatar")
 
     const user = await User.findByIdAndUpdate(
         req.user?._id,
@@ -344,9 +346,13 @@ const updateAvatar = asyncHandler(async (req, res) => {
         }
     ).select("-password -refreshToken")
 
+    console.log(user);
     if (!user) {
         throw new ApiError(400, "error while updating the avatar")
     }
+
+    // TODO: delete the old image before saving the new one, calling the utility function
+    deleteOldImage(oldAvatarURL)
 
     user.save({ validateBeforeSave: false })
     return res
