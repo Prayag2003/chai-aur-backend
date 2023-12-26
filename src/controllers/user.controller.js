@@ -410,6 +410,96 @@ const updateCoverImage = asyncHandler(async (req, res) => {
 
 })
 
+const getUserChannelProfile = asyncHandler(async (req, res) => {
+
+    // channel profile is fetched from the channel url, that is, we get the username from the channel url
+    const { username } = req.params
+    if (!username?.trim()) {
+        throw new ApiError(400, "username is required")
+    }
+
+    // await User.find({username})
+    // NOTE:  Applying Aggregration Pipelines
+    const channel = await User.aggregate([
+
+        // 1st Pipeline: To find the user using match
+        {
+            $match: {
+                username: username?.toLowerCase()
+            }
+        },
+        // 2nd Pipeline: To find the subscribers
+        {
+            $lookup: {
+                // converted to lower case + plural
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "channel",
+                as: "subscribers"
+            }
+        },
+
+        // 3rd pipeline: To find whom i am subscribed to
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "subscriber",
+                as: "subscribedTo"
+            }
+        },
+        // 4th : Adding the new fields to the object    
+        {
+            $addFields: {
+                subscribersCount: {
+                    $size: "$subscribers"
+                },
+                channelsSubscribedTo: {
+                    $size: "$subscribedTo"
+                },
+                isSubscribed: {
+                    $cond: {
+                        if: {
+                            $in: [req.user?._id, "$subscribers.subscriber"]
+                        },
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },
+        // 5th channel : Returning the selected fields ( Projection )
+        {
+            $project: {
+                fullname: 1,
+                username: 1,
+                email: 1,
+                subscribersCount: 1,
+                channelsSubscribedTo: 1,
+                isSubscribed: 1,
+                avatar: 1,
+                coverImage: 1,
+            }
+        }
+    ])
+    // aggregation output : array of documents
+    console.log(channel);
+
+    if (!channel?.length) {
+        throw new ApiError(404, "Channel doesn't exist")
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                channel[0],
+                "User Channel data fetched successfully"
+            )
+        )
+})
+
 export {
     registerUser,
     loginUser,
@@ -419,5 +509,6 @@ export {
     getCurrentUser,
     updateAccountDetails,
     updateAvatar,
-    updateCoverImage
+    updateCoverImage,
+    getUserChannelProfile
 }
