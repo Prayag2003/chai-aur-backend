@@ -41,11 +41,11 @@ router.route("/history").get(verifyJWT, getWatchHistory)
 
 router.route("/update-password").post(verifyJWT, changeCurrentPassword)
 
-router.route("/update-account").put(verifyJWT, updateAccountDetails)
-router.route("/update-avatar").put(
+router.route("/update-account").patch(verifyJWT, updateAccountDetails)
+router.route("/update-avatar").patch(
     verifyJWT,
     upload.single("avatar"),
     updateAvatar)
-router.route("/cover-image").put(verifyJWT, upload.single("coverImage"), updateCoverImage)
+router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateCoverImage)
 
 export default router

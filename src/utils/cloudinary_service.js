@@ -34,7 +34,7 @@ const deleteOldImage = async (oldAvatarURL) => {
             {
                 invalidate: true,
                 resource_type: "image"
-            }
+            },
         )
         if (!response) {
             console.log("Couldn't delete the older image");
