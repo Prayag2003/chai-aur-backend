@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     // 9. return the response 
 
     // NOTE: fetching user data
-    const { username, email, fullname, password } = req.body
+    const    { username, email, fullname, password } = req.body
     console.log(fullname, email);
 
     // NOTE: Validation
