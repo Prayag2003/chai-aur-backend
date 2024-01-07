@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js"
 import { deleteOldImage, uploadOnCloudinary } from "../utils/cloudinary_service.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose"
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -40,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
     // 9. return the response 
 
     // NOTE: fetching user data
-    const    { username, email, fullname, password } = req.body
+    const { username, email, fullname, password } = req.body
     console.log(fullname, email);
 
     // NOTE: Validation
@@ -173,8 +174,11 @@ const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set: {
-                "refreshToken": undefined
+            // $set: {
+            //     refreshToken: null
+            // }
+            $unset: {
+                "refreshToken": 1 // flag passed to unset the refreshToken field
             }
         },
         {
