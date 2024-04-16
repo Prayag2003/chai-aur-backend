@@ -3,6 +3,9 @@
 ## Introduction
 This repository contains the backend code for the Tweet-Tube project. Tweet-Tube is a platform where users can register, upload videos, and interact with other users' content.
 
+## Models 
+- [Models Link](https://app.eraser.io/workspace/YtPqZ1VogxGy1jzIDkzj)
+
 ## Table of Contents
 - [Installation](#installation)
 - [Project Structure](#project-structure)
