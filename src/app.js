@@ -30,9 +30,7 @@ app.use(cookieParser())
 
 import userRouter from "./routes/user.routes.js"
 
-
-// NOTE: routes declarationa
-
+// NOTE: routes declarations
 // eg: http://localhost:8000/api/v1/users/register
 app.use("/api/v1/users", userRouter)
 
