@@ -5,6 +5,7 @@ import { deleteOldImage, uploadOnCloudinary } from "../utils/cloudinary_service.
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
+import validateEmail from "../utils/email_verification.js"
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -55,8 +56,13 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(400, "All fields are compulsory.")
     }
 
-    // NOTE: Checking if the user already exists
-    // User.findOne(username)
+    // NOTE: Email verification
+    if (!validateEmail(email)) {
+        console.log("Invalid email");
+    }
+    // NOTE: Checking if the user already exists using OR operator
+    // User.findOne({username})
+    // "User" calls mongodb and all on behalf of us
     const existingUser = await User.findOne({
         $or: [{ username }, { email }]
     })
