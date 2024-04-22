@@ -43,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // NOTE: fetching user data
     const { username, email, fullname, password } = req.body
-    console.log(fullname, email);
+    console.log(fullname, email, fullname, password);
 
     // NOTE: Validation
     // if (username === "") {
@@ -332,24 +332,24 @@ const updateAvatar = asyncHandler(async (req, res) => {
     // Updating via the Multer middleware
     // since it's a single file, use .file instead .files unlike in RegisterUser Controller
     const avatarLocalPath = req.file?.path
-    console.log(avatarLocalPath);
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is missing")
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
-    console.log(avatar.url);
-    if (!avatar.url) {
+    const newAvatar = await uploadOnCloudinary(avatarLocalPath)
+    console.log(newAvatar.url);
+    if (!newAvatar.url) {
         throw new ApiError(400, "error while uploading on avatar")
     }
 
-    const oldAvatarURL = await User.findById(req.user?._id).select("avatar")
+    const userWithOldAvatarURL = await User.findById(req.user?._id).select("avatar")
+    console.log("Old Path URL" + userWithOldAvatarURL.avatar);
 
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
-                avatar: avatar.url
+                avatar: newAvatar.url
             }
         },
         {
@@ -362,7 +362,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
     }
 
     // TODO: delete the old image before saving the new one, calling the utility function
-    await deleteOldImage(oldAvatarURL)
+    await deleteOldImage(userWithOldAvatarURL.avatar)
 
     user.save({ validateBeforeSave: false })
     return res

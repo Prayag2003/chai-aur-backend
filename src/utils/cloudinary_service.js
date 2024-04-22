@@ -29,8 +29,18 @@ const uploadOnCloudinary = async (localFilePath) => {
 
 const deleteOldImage = async (oldAvatarURL) => {
     try {
+        console.log(oldAvatarURL)
+        console.log(typeof oldAvatarURL);
         if (!oldAvatarURL) return null
-        await cloudinary.uploader.destroy(oldAvatarURL,
+        // Remove the file extension from the URL
+        const imageUrlWithoutExtension = oldAvatarURL.slice(
+            0,
+            oldAvatarURL.lastIndexOf(".")
+        );
+
+        // Extract the public ID from the URL
+        const publicId = imageUrlWithoutExtension.split("/").pop();
+        const response = await cloudinary.uploader.destroy(publicId,
             {
                 invalidate: true,
                 resource_type: "image"
@@ -39,7 +49,7 @@ const deleteOldImage = async (oldAvatarURL) => {
         if (!response) {
             console.log("Couldn't delete the older image");
         }
-        return response
+        return response.ok
     } catch (error) {
         console.log(error);
         return null
