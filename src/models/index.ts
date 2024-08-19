@@ -5,3 +5,4 @@ export * from "./subscription.model";
 export * from "./comment.model";
 export * from "./like.model";
 export * from "./tweet.model";
+export * from "./interfaces";
