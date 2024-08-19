@@ -9,7 +9,16 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["node_modules/*"],
+      "models/*": ["models/*"],
+      "utils/*": ["utils/*"],
+      "controllers/*": ["controllers/*"],
+      "routes/*": ["routes/*"],
+      "middleware/*": ["middleware/*"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
