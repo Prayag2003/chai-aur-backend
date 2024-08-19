@@ -1,4 +1,4 @@
-import { NextFunction, RequestHandler, Response, Request } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 
 /**
  * @description: @HighOrderFunction
@@ -12,12 +12,17 @@ import { NextFunction, RequestHandler, Response, Request } from "express";
  * The asyncHandler utility simplifies this by automatically catching any errors that occur inside the asynchronous handler and passing them to the next function.
  */
 
-const AsyncHandler = (requestHandler: RequestHandler) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
+type AsyncHandler<T extends Request> = (
+  req: T,
+  res: Response,
+  next: NextFunction
+) => Promise<Response | void>;
+
+export const AsyncHandler =
+  <T extends Request>(fn: AsyncHandler<T>): RequestHandler =>
+  (req, res, next) => {
+    Promise.resolve(fn(req as T, res, next)).catch(next);
   };
-};
-export { AsyncHandler };
 
 /** 
  * 
