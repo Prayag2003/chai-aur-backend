@@ -1,12 +1,14 @@
 FROM node:18
 
-WORKDIR /src    
+RUN useradd --create-home appuser
+USER appuser
 
-COPY package*.json ./
+WORKDIR /src
 
+COPY --chown=appuser:appuser package*.json ./
 RUN npm install
 
-COPY . .
+COPY --chown=appuser:appuser . .
 
 EXPOSE 3000
 
