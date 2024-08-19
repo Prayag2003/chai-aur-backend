@@ -1,10 +1,10 @@
-import { asyncHandler } from "../utils/asyncHandler.js"
-import { ApiError } from "../utils/ApiError.js"
-import { User } from "../models/user.model.js"
-import { deleteOldImage, uploadOnCloudinary } from "../utils/cloudinary_service.js"
-import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
+import { User } from "../models/user.model.js"
+import { ApiError } from "../utils/ApiError.js"
+import { ApiResponse } from "../utils/ApiResponse.js"
+import { asyncHandler } from "../utils/asyncHandler.js"
+import { deleteOldImage, uploadOnCloudinary } from "../utils/cloudinary_service.js"
 import validateEmail from "../utils/email_verification.js"
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -43,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // NOTE: fetching user data
     const { username, email, fullname, password } = req.body
-    console.log(fullname, email, fullname, password);
+    // console.log(fullname, email, fullname, password);
 
     // NOTE: Validation
     // if (username === "") {
@@ -162,16 +162,17 @@ const loginUser = asyncHandler(async (req, res) => {
         secure: true
     }
 
+    const response = new ApiResponse(200, {
+        user: loggedInUser,
+        accessToken,
+        refreshToken
+    }, "user logged in successfully")
+
     return res
         .status(200)
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options)
-        .json(new ApiResponse(200, {
-            user: loggedInUser,
-            accessToken,
-            refreshToken
-        }, "user logged in successfully"));
-
+        .json(response);
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -194,7 +195,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: 'None'
     }
 
     return res
@@ -240,17 +242,17 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         // generating new tokens
         const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
         console.log(refreshToken);
+
+        const response = new ApiResponse(200,
+            { accessToken, refreshToken: refreshToken },
+            "Access Token refreshed"
+        )
+
         return res
             .status(200)
             .cookie("accessToken", accessToken, options)
             .cookie("refreshToken", refreshToken, options)
-            .json(
-                new ApiResponse(
-                    200,
-                    { accessToken, refreshToken: refreshToken },
-                    "Access Token refreshed"
-                )
-            )
+            .json(response)
 
     } catch (error) {
         throw new ApiError(401, error?.message, "Invalid refresh token")
@@ -493,7 +495,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         }
     ])
     // aggregation output : array of documents
-    console.log(channel);
+    // console.log(channel);
 
     if (!channel?.length) {
         throw new ApiError(404, "Channel doesn't exist")
@@ -571,15 +573,11 @@ const getWatchHistory = asyncHandler(async (req, res) => {
 })
 
 export {
-    registerUser,
-    loginUser,
-    logoutUser,
-    refreshAccessToken,
     changeCurrentPassword,
-    getCurrentUser,
-    updateAccountDetails,
+    getCurrentUser, getUserChannelProfile,
+    getWatchHistory, loginUser,
+    logoutUser,
+    refreshAccessToken, registerUser, updateAccountDetails,
     updateAvatar,
-    updateCoverImage,
-    getUserChannelProfile,
-    getWatchHistory
+    updateCoverImage
 }
