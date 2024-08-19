@@ -31,5 +31,4 @@ const likeSchema = new Schema<ILike>(
   }
 );
 
-const Like: Model<ILike> = mongoose.model<ILike>("Like", likeSchema);
-export default Like;
+export const Like: Model<ILike> = mongoose.model<ILike>("Like", likeSchema);

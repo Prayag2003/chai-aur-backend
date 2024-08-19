@@ -36,9 +36,7 @@ const playlistSchema = new Schema<IPlaylist>(
 
 playlistSchema.plugin(mongooseAggregatePaginate);
 
-const Playlist: Model<IPlaylist> = mongoose.model<IPlaylist>(
+export const Playlist: Model<IPlaylist> = mongoose.model<IPlaylist>(
   "Playlist",
   playlistSchema
 );
-
-export default Playlist;

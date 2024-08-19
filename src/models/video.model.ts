@@ -55,5 +55,7 @@ const videoSchema = new Schema<IVideo>(
 videoSchema.plugin(mongooseAggregatePaginate);
 
 // Define the Video model with the schema and interface
-const Video: Model<IVideo> = mongoose.model<IVideo>("Video", videoSchema);
-export default Video;
+export const Video: Model<IVideo> = mongoose.model<IVideo>(
+  "Video",
+  videoSchema
+);

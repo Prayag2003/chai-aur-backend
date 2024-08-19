@@ -27,9 +27,7 @@ const commentSchema = new Schema<IComment>(
 
 commentSchema.plugin(mongooseAggregatePaginate);
 
-const Comment: Model<IComment> = mongoose.model<IComment>(
+export const Comment: Model<IComment> = mongoose.model<IComment>(
   "Comment",
   commentSchema
 );
-
-export default Comment;
