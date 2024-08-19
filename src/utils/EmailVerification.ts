@@ -4,4 +4,4 @@ const validateEmail = (email: string) => {
   return emailPattern.test(email);
 };
 
-export default validateEmail;
+export { validateEmail };

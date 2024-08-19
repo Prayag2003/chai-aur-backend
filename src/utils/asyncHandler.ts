@@ -12,12 +12,12 @@ import { NextFunction, RequestHandler, Response, Request } from "express";
  * The asyncHandler utility simplifies this by automatically catching any errors that occur inside the asynchronous handler and passing them to the next function.
  */
 
-const asyncHandler = (requestHandler: RequestHandler) => {
+const AsyncHandler = (requestHandler: RequestHandler) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err));
   };
 };
-export { asyncHandler };
+export { AsyncHandler };
 
 /** 
  * 
