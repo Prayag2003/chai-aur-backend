@@ -1,12 +1,6 @@
 import mongoose, { Model, Schema } from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
-
-interface IPlaylist extends Document {
-  name: string;
-  description: string;
-  videos: mongoose.Types.ObjectId[];
-  owner: mongoose.Types.ObjectId;
-}
+import { IPlaylist } from "./interfaces";
 
 const playlistSchema = new Schema<IPlaylist>(
   {

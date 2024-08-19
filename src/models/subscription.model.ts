@@ -1,9 +1,5 @@
 import mongoose, { Model, Schema } from "mongoose";
-
-interface ISubscription extends Document {
-  subscriber: mongoose.Types.ObjectId;
-  channel: mongoose.Types.ObjectId;
-}
+import { ISubscription } from "./interfaces";
 
 const subscriptionSchema = new Schema<ISubscription>(
   {

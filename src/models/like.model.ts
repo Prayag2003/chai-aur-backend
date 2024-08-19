@@ -1,11 +1,5 @@
 import mongoose, { Model, Schema } from "mongoose";
-
-interface ILike extends Document {
-  video: mongoose.Types.ObjectId;
-  comment: mongoose.Types.ObjectId;
-  tweet: mongoose.Types.ObjectId;
-  likedBy: mongoose.Types.ObjectId;
-}
+import { ILike } from "./interfaces";
 
 const likeSchema = new Schema<ILike>(
   {

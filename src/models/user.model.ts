@@ -1,20 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import mongoose, { Document, Model, Schema } from "mongoose";
-
-interface IUser extends Document {
-  username: string;
-  email: string;
-  fullname: string;
-  avatar: string;
-  coverImage: string;
-  watchHistory: mongoose.Types.ObjectId[];
-  password: string;
-  refreshToken?: string;
-  isPasswordCorrect(password: string): Promise<boolean>;
-  generateAccessToken(): string;
-  generateRefreshToken(): string;
-}
+import mongoose, { Model, Schema } from "mongoose";
+import { IUser } from "./interfaces";
 
 const userSchema = new Schema<IUser>(
   {

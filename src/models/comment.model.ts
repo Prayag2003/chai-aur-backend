@@ -1,11 +1,6 @@
 import mongoose, { Model, Schema } from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
-
-interface IComment extends Document {
-  content: string;
-  video: mongoose.Types.ObjectId;
-  owner: mongoose.Types.ObjectId;
-}
+import { IComment } from "./interfaces";
 
 const commentSchema = new Schema<IComment>(
   {

@@ -1,9 +1,5 @@
 import mongoose, { Model, Schema } from "mongoose";
-
-interface ITweet extends Document {
-  content: string;
-  owner: mongoose.Types.ObjectId;
-}
+import { ITweet } from "./interfaces";
 
 const tweetSchema = new Schema<ITweet>(
   {
