@@ -1,8 +1,4 @@
-import {
-  v2 as cloudinary,
-  UploadApiResponse,
-  UploadApiErrorResponse,
-} from "cloudinary";
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import fs from "fs";
 
 // Cloudinary config
@@ -76,4 +72,4 @@ const deleteOldImage = async (
   }
 };
 
-export { uploadOnCloudinary, deleteOldImage };
+export { deleteOldImage, uploadOnCloudinary };
