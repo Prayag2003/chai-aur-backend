@@ -4,10 +4,6 @@
 
 This repository contains the backend code for the Tweet-Tube project. Tweet-Tube is a platform where users can register, upload videos, and interact with other users' content.
 
-## Models
-
-- [Models Link (Credits: Hitesh Chaudhary Sir)](https://app.eraser.io/workspace/YtPqZ1VogxGy1jzIDkzj)
-
 ## Table of Contents
 
 - [Installation](#installation)
@@ -60,9 +56,9 @@ To set up the project locally, follow these steps:
 
 The project follows a modular structure, dividing code into separate files for better organization and maintainability. Here's a brief overview of the main files and directories:
 
-- **index.js**: Entry point of the application. Sets up environment variables, connects to the database, and starts the server.
-- **app.js**: Configures Express application, sets up middleware, and defines routes.
-- **db/conn.js**: Connects to MongoDB using Mongoose.
+- **index.ts**: Entry point of the application. Sets up environment variables, connects to the database, and starts the server.
+- **app.ts**: Configures Express application, sets up middleware, and defines routes.
+- **db/conn.ts**: Connects to MongoDB using Mongoose.
 - **routes/**: Directory containing route files for different API endpoints.
 - **controllers/**: Contains controller functions to handle business logic.
 - **middleware/**: Directory for custom middleware functions such as authentication and file upload handling.
@@ -72,14 +68,14 @@ The project follows a modular structure, dividing code into separate files for b
 
 The project utilizes several middleware functions for handling various tasks such as CORS, JSON parsing, cookie parsing, authentication, and file upload handling. Notable middleware includes:
 
-- **auth.middleware.js**: Middleware for verifying JWT tokens and authenticating users.
-- **multer.middleware.js**: Middleware for handling file uploads using Multer.
+- **auth.middleware.ts**: Middleware for verifying tWT tokens and authenticating users.
+- **multer.middleware.ts**: Middleware for handling file uploads using Multer.
 
 # Controllers
 
 ## User Controller Functions Overview
 
-Here's a brief overview of each function in the `user.controller.js` file along with an explanation of any standard development practices or SOLID Principles applied:
+Here's a brief overview of each function in the `user.controller.ts` file along with an explanation of any standard development practices or SOLID Principles applied:
 
 - **registerUser**: Handles user registration, input validation, image upload, and database entry.
 - **loginUser**: Manages user login, credential validation, token generation, and secure cookie handling.
