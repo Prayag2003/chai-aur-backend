@@ -5,7 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "nodemon",
+        "dev": "node --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts",
         "build": "tsc",
         "start": "node dist/index.js"
     },
@@ -14,6 +14,15 @@
         "backend",
         "production"
     ],
+    "exports": {
+        "./app": "./dist/app/index.js",
+        "./routes": "./dist/routes/index.js",
+        "./db": "./dist/db/index.js",
+        "./models": "./dist/models/index.js",
+        "./middleware": "./dist/middleware/index.js",
+        "./utils": "./dist/utils/index.js",
+        "./controllers": "./dist/controllers/index.js"
+    },
     "author": "Prayag Bhatt",
     "license": "ISC",
     "devDependencies": {

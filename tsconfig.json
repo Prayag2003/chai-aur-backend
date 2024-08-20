@@ -1,25 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "resolveJsonModule": true,
-    "baseUrl": "./src",
-    "paths": {
-      "*": ["node_modules/*"],
-      "models/*": ["models/*"],
-      "utils/*": ["utils/*"],
-      "controllers/*": ["controllers/*"],
-      "routes/*": ["routes/*"],
-      "middleware/*": ["middleware/*"]
-    }
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "target": "ESNext",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "strict": true
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
 }
