@@ -1,9 +1,9 @@
 import dotenv from 'dotenv'
+dotenv.config({ path: './.env' })
+
 import { app } from './app'
 import { connectDB } from './db'
 const port = process.env.PORT || 8000
-
-dotenv.config({ path: './.env' })
 
 // NOTE: ConnectDB returns a promise since every async call returns a promise
 connectDB()

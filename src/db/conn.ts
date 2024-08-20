@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import {DB_NAME} from '../constants'
-import {Logger as logger} from '../utils'
-import {ConnectionInstance} from '../models/interfaces'
+import { DB_NAME } from '../constants'
+import { Logger as logger } from '../utils'
+import { ConnectionInstance } from '../models/interfaces'
 
 export const connectDB = async (): Promise<void> => {
     try {
