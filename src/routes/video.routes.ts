@@ -9,11 +9,11 @@ import {
 } from '../controllers'
 import { verifyJWT, upload } from '../middleware'
 
-const router = Router()
+const videoRouter = Router()
 
-router.route('/').get(getAllVideos)
+videoRouter.route('/').get(getAllVideos)
 
-router.route('/').post(
+videoRouter.route('/').post(
     verifyJWT,
     upload.fields([
         { name: 'videoFile', maxCount: 1 },
@@ -22,13 +22,15 @@ router.route('/').post(
     publishAVideo
 )
 
-router.route('/:videoId').get(getVideoById)
+videoRouter.route('/:videoId').get(getVideoById)
 
-router
+videoRouter
     .route('/:videoId')
     .patch(verifyJWT, upload.single('thumbnail'), updateVideo)
 
-router.route('/:videoId').delete(verifyJWT, deleteVideo)
-router.route('/:videoId/toggle-publish').patch(verifyJWT, togglePublishStatus)
+videoRouter.route('/:videoId').delete(verifyJWT, deleteVideo)
+videoRouter
+    .route('/:videoId/toggle-publish')
+    .patch(verifyJWT, togglePublishStatus)
 
-export { router as videoRouter }
+export { videoRouter }

@@ -7,11 +7,11 @@ import {
 } from '../controllers'
 import { verifyJWT } from '../middleware'
 
-const router = Router()
+const tweetRouter = Router()
 
-router.post('/', verifyJWT, createTweet)
-router.get('/user/:userId', verifyJWT, getUserTweets)
-router.put('/:tweetId', verifyJWT, updateTweet)
-router.delete('/:tweetId', verifyJWT, deleteTweet)
+tweetRouter.post('/', verifyJWT, createTweet)
+tweetRouter.get('/user/:userId', verifyJWT, getUserTweets)
+tweetRouter.put('/:tweetId', verifyJWT, updateTweet)
+tweetRouter.delete('/:tweetId', verifyJWT, deleteTweet)
 
-export { router as tweetRouter }
+export { tweetRouter }

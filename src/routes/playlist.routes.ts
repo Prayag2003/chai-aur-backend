@@ -29,4 +29,4 @@ playlistRouter.delete(
 playlistRouter.delete('/:playlistId', authenticateUser, deletePlaylist)
 playlistRouter.put('/:playlistId', authenticateUser, updatePlaylist)
 
-export { playlistRouter as router }
+export { playlistRouter }

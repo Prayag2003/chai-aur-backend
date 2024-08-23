@@ -15,9 +15,9 @@ import {
 
 import { upload, verifyJWT } from '../middleware'
 
-const router = Router()
+const userRouter = Router()
 
-router.route('/register').post(
+userRouter.route('/register').post(
     // NOTE: Multer middleware injection
     upload.fields([
         {
@@ -32,24 +32,24 @@ router.route('/register').post(
     registerUser
 )
 
-router.route('/login').post(loginUser)
+userRouter.route('/login').post(loginUser)
 
 // secured routes
-router.route('/logout').post(verifyJWT, logoutUser)
-router.route('/refresh-token').post(refreshAccessToken)
+userRouter.route('/logout').post(verifyJWT, logoutUser)
+userRouter.route('/refresh-token').post(refreshAccessToken)
 
-router.route('/current-user').get(verifyJWT, getCurrentUser)
-router.route('/c/:username').get(verifyJWT, getUserChannelProfile)
-router.route('/history').get(verifyJWT, getWatchHistory)
+userRouter.route('/current-user').get(verifyJWT, getCurrentUser)
+userRouter.route('/c/:username').get(verifyJWT, getUserChannelProfile)
+userRouter.route('/history').get(verifyJWT, getWatchHistory)
 
-router.route('/update-password').post(verifyJWT, changeCurrentPassword)
+userRouter.route('/update-password').post(verifyJWT, changeCurrentPassword)
 
-router.route('/update-account').patch(verifyJWT, updateAccountDetails)
-router
+userRouter.route('/update-account').patch(verifyJWT, updateAccountDetails)
+userRouter
     .route('/update-avatar')
     .patch(verifyJWT, upload.single('avatar'), updateAvatar)
-router
+userRouter
     .route('/cover-image')
     .patch(verifyJWT, upload.single('coverImage'), updateCoverImage)
 
-export { router as userRouter }
+export { userRouter }

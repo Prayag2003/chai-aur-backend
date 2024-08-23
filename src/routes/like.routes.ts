@@ -7,11 +7,11 @@ import {
 } from '../controllers/like.controller'
 import { verifyJWT as authenticate } from '../middleware'
 
-const router = Router()
+const likeRouter = Router()
 
-router.post('/video/:videoId', authenticate, toggleVideoLike)
-router.post('/comment/:commentId', authenticate, toggleCommentLike)
-router.post('/tweet/:tweetId', authenticate, toggleTweetLike)
-router.get('/videos', authenticate, getLikedVideos)
+likeRouter.post('/video/:videoId', authenticate, toggleVideoLike)
+likeRouter.post('/comment/:commentId', authenticate, toggleCommentLike)
+likeRouter.post('/tweet/:tweetId', authenticate, toggleTweetLike)
+likeRouter.get('/videos', authenticate, getLikedVideos)
 
-export { router as likeRouter }
+export { likeRouter }
