@@ -30,9 +30,11 @@ app.use(express.static('public'))
 app.use(cookieParser())
 
 // NOTE: Routes import
-import { userRouter, videoRouter } from '../routes'
+import { likeRouter, tweetRouter, userRouter, videoRouter } from '../routes'
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/videos', videoRouter)
+app.use('/api/v1/likes', likeRouter)
+app.use('/api/v1/tweets', tweetRouter)
 
 export { app }
