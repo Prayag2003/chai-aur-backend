@@ -21,7 +21,7 @@ const videoSchema = new Schema<IVideo>(
             required: true
         },
         duration: {
-            type: Number, // from cloudinary as well
+            type: Number,
             required: true
         },
         views: {
@@ -41,8 +41,5 @@ const videoSchema = new Schema<IVideo>(
 )
 
 // NOTE: allows us to aggregate queries/ pagination
-// Add pagination plugin to the schema
 videoSchema.plugin(mongooseAggregatePaginate)
-
-// Define the Video model with the schema and interface
 export const Video: Model<IVideo> = mongoose.model<IVideo>('Video', videoSchema)
