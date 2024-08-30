@@ -1,4 +1,7 @@
+export * from './comment.controller'
 export * from './like.controller'
+export * from './playlist.controller'
+export * from './subscription.controller'
 export * from './tweet.controller'
 export * from './user.controller'
 export * from './video.controller'
